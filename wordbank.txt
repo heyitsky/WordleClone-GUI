@@ -1,2 +1,2 @@
-words will be populated from here:
+words, will, be, populated, from, here
 
