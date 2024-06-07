@@ -19,26 +19,31 @@ class Game:
     
     def guess(self):
         """Gets user input and validates it"""
-        guess = input('\nGuess #{}: Enter a 5 letter word: '.format(self.guesses))
-        guess.lower()
-        for letter in guess:
-            if letter not in ASCII:
-                raise ValueError("Invalid letter '{}'".format(letter))
-        
-        # can add validation to check through list of words for a 'valid' word
-        
-        if guess in self.guess_list:
-            raise ValueError("Word already guessed! Try again")
-        else:
-            self.guess_list.append(guess)
-            self.guesses += 1
-            return guess
+        valid_guess = False
+        while valid_guess == False:
+            guess = input('\nGuess #{}: Enter a 5 letter word: '.format(self.guesses+1))
+            guess.lower()
+            for letter in guess:
+                if letter not in ASCII:
+                    print("Invalid letter '{}'".format(letter))
+            
+            # can add validation to check through list of words for a 'valid' word
+            if guess in self.guess_list:
+                print("Word already guessed! Try again")
+            elif len(guess) != 5:
+                print("Please enter a 5 letter word!")
+            else:
+                valid_guess = True
+
+        self.guess_list.append(guess)
+        self.guesses += 1
+        return guess
 
     def play(self):
-        if not self.game_over:
+        if self.game_over:
             self.reset()
         self.current_word = self.get_game_word()
-        print(self.current_word)
+        # print(self.current_word)                        #DEBUG
         self.start_message()
 
         while self.game_over != True:           
@@ -53,14 +58,13 @@ class Game:
 
         if self.guesses < MAX_NUMBER_OF_GUESSES:
             print(f'Congratulations, you won in {len(self.guesses)} attempt/s.')
+            
         else:
             print(f'Better like next time, the correct word was {self.current_word.capitalize()}.')
 
     def determine_word_pattern(self, word):
-        # compare word with current_word
         temp_pattern = ""
         for index, char in enumerate(word):
-            print(index, char)
             if char == self.current_word[index]:
                 temp_pattern += GUESSES['correct']
             elif char in self.current_word:
@@ -70,7 +74,9 @@ class Game:
         return temp_pattern
 
     def start_message(self):
-        input("Ready to play a new game, press ENTER/RETURN to start..!")
+        text = input("Ready to play a new game, press ENTER/RETURN to start..!")
+        while text != "":
+            text = input("Ready to play a new game, press ENTER/RETURN to start..!")
     
     def reset(self):
         self.guesses = 0
@@ -94,7 +100,8 @@ if __name__ == "__main__":
     game = Game()
     game.play()
     newGame = input('Do you want to play again? Y/N ')
-    while input == 'Y' or 'y':
+    print(newGame)
+    if newGame  == 'Y' or 'y':
         game.play()
-    print('Thanks for playing, goodbye!')
-    
+    else:
+        print('Thanks for playing, goodbye!') 
