@@ -1,5 +1,4 @@
 ERRORS/BUGS to fix
 -------------------------
-1 - When game is finished, press Y, enter doesn't start new game
-2 - doesn't check for guesses longer than 5 letters
-3 - doesn't check for guesses less than 5 letters
+- pressing N doesn't stop the game
+- after 1st game, second game doesn't prompt them to play again
