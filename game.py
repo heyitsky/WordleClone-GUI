@@ -14,15 +14,14 @@ class Game:
         self.guesses = 0
         self.guess_list = []
         self.current_word = "test"
-        self.guess_pattern = ["-----"]
+        self.guess_pattern = []
         self.game_over = False
     
     def guess(self):
         """Gets user input and validates it"""
         guess = input('\nGuess #{}: Enter a 5 letter word: '.format(self.guesses))
-        guess.toLower()
-        letters = guess.split()
-        for letter in letters:
+        guess.lower()
+        for letter in guess:
             if letter not in ASCII:
                 raise ValueError("Invalid letter '{}'".format(letter))
         
@@ -61,12 +60,14 @@ class Game:
         # compare word with current_word
         temp_pattern = ""
         for index, char in enumerate(word):
+            print(index, char)
             if char == self.current_word[index]:
-                temp_pattern += self.guess_pattern["correct"]
+                temp_pattern += GUESSES['correct']
             elif char in self.current_word:
-                temp_pattern += self.guess_pattern["partially"]
+                temp_pattern += GUESSES["partially"]
             else:
-                temp_pattern += self.guess_pattern["incorrect"]
+                temp_pattern += GUESSES['incorrect']
+        return temp_pattern
 
     def start_message(self):
         input("Ready to play a new game, press ENTER/RETURN to start..!")
@@ -74,7 +75,7 @@ class Game:
     def reset(self):
         self.guesses = 0
         self.guess_list = []
-        self.guess_pattern = ["-----"]
+        self.guess_pattern = []
         self.game_over = False
 
     def get_game_word(self):
@@ -83,10 +84,10 @@ class Game:
             return word
     
     def display_state(self):
-        print('Guesses so far:')
+        print('\nGuesses so far:')
         print('-----------------')
-        for i in len(self.guesses):
-            print(' '.join(self.guess_list[i]))
+        for i in range(len(self.guess_list)):
+            print(" " + ' '.join(self.guess_list[i]))
             print(self.guess_pattern[i])
 
 if __name__ == "__main__":
