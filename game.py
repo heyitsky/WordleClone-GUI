@@ -1,6 +1,7 @@
 #implement error handling (can only use letters)
 from string import ascii_letters
 import random
+import pdb
 
 ASCII = str(ascii_letters)
 MAX_NUMBER_OF_GUESSES = 5
@@ -57,10 +58,11 @@ class Game:
                     self.game_over = True
 
         if self.guesses < MAX_NUMBER_OF_GUESSES:
+            print('Correct!!!')
             print(f'Congratulations, you won in {len(self.guesses)} attempt/s.')
             
         else:
-            print(f'Better like next time, the correct word was {self.current_word.capitalize()}.')
+            print(f'Better like next time, the correct word was {self.current_word.upper()}.')
 
     def determine_word_pattern(self, word):
         temp_pattern = ""
@@ -87,7 +89,7 @@ class Game:
     def get_game_word(self):
         with open('wordbank.txt', 'r') as wordbank:
             word = random.choice(wordbank.read().split(','))
-            return word
+            return word.lower()
     
     def display_state(self):
         print('\nGuesses so far:')
@@ -100,8 +102,9 @@ if __name__ == "__main__":
     game = Game()
     game.play()
     newGame = input('Do you want to play again? Y/N ')
-    print(newGame)
-    if newGame  == 'Y' or 'y':
+    newGame.strip()
+    if newGame == "Y" or newGame == "y":
         game.play()
     else:
-        print('Thanks for playing, goodbye!') 
+        print('Thanks for playing, goodbye!')
+        exit()
