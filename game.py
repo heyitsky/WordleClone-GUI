@@ -58,10 +58,17 @@ class Game:
                     self.game_over = True
 
         if self.guesses < MAX_NUMBER_OF_GUESSES:
-            print('Correct!!!')
-            print(f'Congratulations, you won in {len(self.guesses)} attempt/s.')
             
+            print('------------------------')
+            print('Correct!!!')
+            won_message = f'Congratulations, you won in {self.guesses} '
+            if self.guesses > 1:
+                won_message += "guesses."
+            else:
+                won_message += "guess."
+            print(won_message)
         else:
+            print('------------------------')
             print(f'Better like next time, the correct word was {self.current_word.upper()}.')
 
     def determine_word_pattern(self, word):
@@ -103,8 +110,11 @@ if __name__ == "__main__":
     game.play()
     newGame = input('Do you want to play again? Y/N ')
     newGame.strip()
-    if newGame == "Y" or newGame == "y":
-        game.play()
-    else:
-        print('Thanks for playing, goodbye!')
-        exit()
+    while newGame != "":
+        if newGame == "Y" or newGame == "y":
+            game.play()
+            newGame = input('Do you want to play again? Y/N ')
+            newGame.strip()
+        else:
+            print('Thanks for playing, goodbye!')
+            exit()
