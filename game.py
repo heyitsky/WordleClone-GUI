@@ -14,16 +14,16 @@ class Game:
         """Random word selected, gues_list set to empty, set game word, set guesses to 0"""
         self.guesses = 0
         self.guess_list = []
-        self.current_word = "test"
+        self.current_word = ""
         self.guess_pattern = []
         self.game_over = False
     
     def guess(self):
-        """Gets user input and validates it"""
+        """Gets user input, validates it and returns word"""
         valid_guess = False
         while valid_guess == False:
             guess = input('\nGuess #{}: Enter a 5 letter word: '.format(self.guesses+1))
-            guess.lower()
+            guess = guess.lower()
             for letter in guess:
                 if letter not in ASCII:
                     print("Invalid letter '{}'".format(letter))
@@ -102,7 +102,7 @@ class Game:
         print('\nGuesses so far:')
         print('-----------------')
         for i in range(len(self.guess_list)):
-            print(" " + ' '.join(self.guess_list[i]))
+            print(" " + ' '.join(self.guess_list[i].upper()))
             print(self.guess_pattern[i])
 
 if __name__ == "__main__":
