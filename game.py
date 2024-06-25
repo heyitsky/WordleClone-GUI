@@ -5,7 +5,7 @@ import pdb
 
 ASCII = str(ascii_letters)
 MAX_NUMBER_OF_GUESSES = 5
-GUESSES = {"incorrect": "🔴", "correct": "🟢", "partially": "🟠", "unknown": "?"}
+GUESSES = {"incorrect": "🔴", "correct": "🟢", "partially": "🟡", "unknown": "?"}
 
 class Game:
     """A simple wordle clone"""
