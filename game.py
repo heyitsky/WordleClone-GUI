@@ -1,7 +1,7 @@
 #implement error handling (can only use letters)
 from string import ascii_letters
 import random
-import pdb
+import tkinter
 
 ASCII = str(ascii_letters)
 MAX_NUMBER_OF_GUESSES = 5
@@ -106,6 +106,9 @@ class Game:
             print(self.guess_pattern[i])
 
 if __name__ == "__main__":
+    m = tkinter.Tk()
+    m.mainloop()
+    # link game to window
     game = Game()
     game.play()
     newGame = input('Do you want to play again? Y/N ')
