@@ -1,7 +1,7 @@
 #implement error handling (can only use letters)
 from string import ascii_letters
 import random
-import tkinter
+from tkinter import *
 
 ASCII = str(ascii_letters)
 MAX_NUMBER_OF_GUESSES = 5
@@ -106,12 +106,16 @@ class Game:
             print(self.guess_pattern[i])
 
 def start_gui():
-    window = tkinter.Tk()
+    window = Tk()
     window.title("Wordle")
+    window.tk.call("tk", "scaling", 3.0)
     return window
 
 if __name__ == "__main__":
     window = start_gui()
+    
+    label = Label(window, text="Welcome to Wordle! Click or press any key to begin...")
+    label.grid(column=1, row=1)
     window.mainloop()
     # link game to window
     game = Game()
