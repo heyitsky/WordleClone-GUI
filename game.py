@@ -1,7 +1,7 @@
 #implement error handling (can only use letters)
 from string import ascii_letters
 import random
-from tkinter import *
+import tkinter as tk
 
 ASCII = str(ascii_letters)
 MAX_NUMBER_OF_GUESSES = 5
@@ -10,13 +10,37 @@ GUESSES = {"incorrect": "🔴", "correct": "🟢", "partially": "🟡", "unknown
 class Game:
     """A simple wordle clone"""
 
-    def __init__(self):
+    def __init__(self, window):
         """Random word selected, gues_list set to empty, set game word, set guesses to 0"""
+        self.window = window
+        self.window.title("Wordle")
+        self.window.geometry("400x500")
+        
         self.guesses = 0
         self.guess_list = []
         self.current_word = ""
         self.guess_pattern = []
         self.game_over = False
+    
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.label = tk.Label(self.window, text="Welcome to Wordle! Click start to begin...")
+        self.label.pack(pady=10)
+
+        self.start_button = tk.Button(self.window, text="Start Game", command=self.start_game)
+        self.start_button.pack(pady=10)
+
+        self.entry = tk.Entry(self.window, font=('Helvetica', 24))
+        self.entry.pack(pady=10)
+
+        self.message_label = tk.Label(self.window, text='', font=('Helvetica', 14))
+        self.message_label.pack(pady=10)
+    
+    def start_game(self):
+        self.reset()
+        self.current_word = self.get_game_word()
+        self.label.config(text='Guess the 5 letter word!')
     
     def guess(self):
         """Gets user input, validates it and returns word"""
@@ -30,9 +54,11 @@ class Game:
             
             # can add validation to check through list of words for a 'valid' word
             if guess in self.guess_list:
-                print("Word already guessed! Try again")
+                self.message_label.config(text="Word already guessed! Try again")
+                # print("Word already guessed! Try again")
             elif len(guess) != 5:
-                print("Please enter a 5 letter word!")
+                self.message_label.config(text="Please enter a 5 letter word!")
+                # print("Please enter a 5 letter word!")
             else:
                 valid_guess = True
 
@@ -51,25 +77,31 @@ class Game:
             word = self.guess()
             if word == self.current_word:
                 self.game_over = True
+
             else:                
                 self.guess_pattern.append(self.determine_word_pattern(word))
                 self.display_state()
+
+                self.entry.delete(0, tk.END)
+                
                 if not self.guesses < MAX_NUMBER_OF_GUESSES:
                     self.game_over = True
 
         if self.guesses < MAX_NUMBER_OF_GUESSES:
             
-            print('------------------------')
-            print('Correct!!!')
+            # print('------------------------')
+            # print('Correct!!!')
             won_message = f'Congratulations, you won in {self.guesses} '
             if self.guesses > 1:
                 won_message += "guesses."
             else:
                 won_message += "guess."
-            print(won_message)
+            self.message_label.config(text=won_message)
+            # print(won_message)
         else:
-            print('------------------------')
-            print(f'Better like next time, the correct word was {self.current_word.upper()}.')
+            # print('------------------------')
+            self.message_label.config(text=f'Better like next time, the correct word was {self.current_word.upper()}.')
+            # print(f'Better like next time, the correct word was {self.current_word.upper()}.')
 
     def determine_word_pattern(self, word):
         temp_pattern = ""
@@ -92,6 +124,8 @@ class Game:
         self.guess_list = []
         self.guess_pattern = []
         self.game_over = False
+        for widget in self.guesses_frame.winfo_children():
+            widget.destroy()
 
     def get_game_word(self):
         with open('wordbank.txt', 'r') as wordbank:
@@ -105,19 +139,7 @@ class Game:
             print(" " + ' '.join(self.guess_list[i].upper()))
             print(self.guess_pattern[i])
 
-def start_gui():
-    window = Tk()
-    window.title("Wordle")
-    window.tk.call("tk", "scaling", 3.0)
-    return window
-
 if __name__ == "__main__":
-    window = start_gui()
-    
-    label = Label(window, text="Welcome to Wordle! Click or press any key to begin...")
-    label.grid(column=1, row=1)
-    window.mainloop()
-    # link game to window
     game = Game()
     game.play()
     newGame = input('Do you want to play again? Y/N ')
@@ -130,3 +152,6 @@ if __name__ == "__main__":
         else:
             print('Thanks for playing, goodbye!')
             exit()
+
+# TO DO: display_guess function, or ask gpt to make it in the same sdtyle as my current code
+        # figure out how the play method works with this new version - tie into gameloop?
