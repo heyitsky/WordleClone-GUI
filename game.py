@@ -105,9 +105,14 @@ class Game:
             print(" " + ' '.join(self.guess_list[i].upper()))
             print(self.guess_pattern[i])
 
+def start_gui():
+    window = tkinter.Tk()
+    window.title("Wordle")
+    return window
+
 if __name__ == "__main__":
-    m = tkinter.Tk()
-    m.mainloop()
+    window = start_gui()
+    window.mainloop()
     # link game to window
     game = Game()
     game.play()
