@@ -20,6 +20,7 @@ class Game:
         self.current_word = ""
         self.guess_pattern = []
         self.game_over = False
+        self.game_start = False
 
         self.create_widgets()
 
@@ -42,6 +43,14 @@ class Game:
 
         self.guesses_frame = tk.Frame(self.master)
         self.guesses_frame.pack(pady=10)
+    
+    def delete_widgets(self):
+        self.label.destroy()
+        self.start_button.destroy()
+        self.entry.destroy()
+        self.submit_button.destroy()
+        self.message_label.destroy()        
+        self.guesses_frame.destroy()
 
     def start_game(self):
         self.reset()
@@ -54,7 +63,9 @@ class Game:
         self.guess_pattern = []
         self.game_over = False
         for widget in self.guesses_frame.winfo_children():
-            widget.destroy()
+            widget.destroy()         
+        self.delete_widgets()
+        self.create_widgets()
 
     def get_game_word(self):
         with open('wordbank.txt', 'r') as wordbank:
