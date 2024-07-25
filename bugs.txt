@@ -1,0 +1,3 @@
+ERRORS/BUGS to fix
+-------------------------
+- if a letter is found and guess in the word elsewhere, it will show orange as if there is another
