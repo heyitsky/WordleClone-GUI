@@ -55,6 +55,7 @@ class Game:
     def start_game(self):
         self.reset()
         self.current_word = self.get_game_word()
+        print(self.current_word)
         self.label.config(text="Guess the 5-letter word!")
 
     def reset(self):
@@ -63,7 +64,7 @@ class Game:
         self.guess_pattern = []
         self.game_over = False
         for widget in self.guesses_frame.winfo_children():
-            widget.destroy()         
+            widget.destroy()
         self.delete_widgets()
         self.create_widgets()
 
@@ -74,8 +75,11 @@ class Game:
 
     def submit_guess(self):
         guess = self.entry.get().lower()
-        if not guess or len(guess) != 5 or any(char not in ASCII for char in guess):
+        if not guess or len(guess) != 5:
             self.message_label.config(text="Please enter a valid 5-letter word.")
+            return
+        elif any(char not in ASCII for char in guess):
+            self.message_label.config(text="Invalid characters used, please use only a-z letters.")
             return
 
         self.guess_list.append(guess)
