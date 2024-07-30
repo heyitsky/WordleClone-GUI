@@ -22,15 +22,20 @@ class Game:
         self.game_over = False
         self.game_start = False
 
-        self.create_widgets()
-
-    def create_widgets(self):
-        """Create and place widgets in the window"""
         self.label = tk.Label(self.master, text="Welcome to Wordle! Click Start to begin...")
         self.label.pack(pady=10)
 
         self.start_button = tk.Button(self.master, text="Start Game", command=self.start_game)
         self.start_button.pack(pady=10)
+
+        self.guesses_frame = tk.Frame(self.master)
+        self.guesses_frame.pack(pady=10)
+    
+    def create_widgets(self):
+        """Create and place widgets in the window"""
+
+        self.guesses_frame = tk.Frame(self.master)
+        self.guesses_frame.pack(pady=10)
 
         self.entry = tk.Entry(self.master, font=('Helvetica', 24))
         self.entry.pack(pady=10)
@@ -40,9 +45,6 @@ class Game:
 
         self.message_label = tk.Label(self.master, text='', font=('Helvetica', 14))
         self.message_label.pack(pady=10)
-
-        self.guesses_frame = tk.Frame(self.master)
-        self.guesses_frame.pack(pady=10)
     
     def delete_widgets(self):
         self.label.destroy()
@@ -54,6 +56,9 @@ class Game:
 
     def start_game(self):
         self.reset()
+        self.create_widgets()
+        if self.start_button:
+            self.start_button.destroy()
         self.current_word = self.get_game_word()
         print(self.current_word)
         self.label.config(text="Guess the 5-letter word!")
@@ -63,10 +68,9 @@ class Game:
         self.guess_list = []
         self.guess_pattern = []
         self.game_over = False
-        for widget in self.guesses_frame.winfo_children():
-            widget.destroy()
-        self.delete_widgets()
-        self.create_widgets()
+        if self.guesses_frame:
+            for widget in self.guesses_frame.winfo_children():
+                widget.destroy()
 
     def get_game_word(self):
         with open('wordbank.txt', 'r') as wordbank:
